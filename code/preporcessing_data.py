@@ -9,6 +9,9 @@ vectorizer = CountVectorizer()
 
 def preprocess_data(tweets_df):
 
+    # shape of the data
+    #print(tweets_df.shape)
+
     # drop the columns that are not needed
     tweets_df = tweets_df.drop('Index', axis=1)
 
@@ -40,6 +43,10 @@ def preprocess_data(tweets_df):
     X = vectorizer.fit_transform(X)  # X is now a matrix of numerical features
 
     return X, y
+
+
+preprocess_data(read_data(
+    '/Users/manelkfc/Desktop/M1/techniques-d-apprentissage-artificiel/projet-techniques-apprentissage-artificiel/data/sentiment_tweets.csv'))
 
 
 def preprocess_tweet(tweet):

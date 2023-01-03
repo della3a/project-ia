@@ -1,12 +1,11 @@
-from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import accuracy_score
+from tools import evaluate_model, plot_confusion_matrix
 
 
 def learning_on_data_regression(tweets_train, tweets_test, y_train, y_test):
 
     # Create a logistic regression model
-    clf = LogisticRegression()
+    clf = LogisticRegression(max_iter=10000)
 
     # Train the model on the training data
     clf.fit(tweets_train, y_train)
@@ -15,7 +14,9 @@ def learning_on_data_regression(tweets_train, tweets_test, y_train, y_test):
     y_pred = clf.predict(tweets_test)
 
     # Evaluate the model's performance
-    accuracy = accuracy_score(y_test, y_pred)
-    print(f'Accuracy: {accuracy:.2f}')
+    accuracy, f1, precision, recall = evaluate_model(y_test, y_pred)
 
-    return accuracy, clf
+    # Plot the confusion matrix
+    plot_confusion_matrix(y_test, y_pred, "Logistic Regression")
+
+    return clf

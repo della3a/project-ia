@@ -1,12 +1,9 @@
 # Import the necessary libraries
 from sklearn.svm import SVC
-from sklearn.metrics import accuracy_score
-
-from transformers import BertModel, BertTokenizer
-import torch
+from tools import evaluate_model, plot_confusion_matrix
 
 
-def learning_on_data_bis(tweets_train, tweets_test, y_train, y_test):
+def learning_on_data_svc(tweets_train, tweets_test, y_train, y_test):
 
     # Create a SVM classifier
     clf = SVC(kernel='linear', C=1.0, random_state=42)
@@ -14,8 +11,11 @@ def learning_on_data_bis(tweets_train, tweets_test, y_train, y_test):
     clf.fit(tweets_train, y_train)
     # Make predictions on the test data
     y_pred = clf.predict(tweets_test)
-    # Evaluate the model's performance
-    accuracy = accuracy_score(y_test, y_pred)
-    print(f'Accuracy: {accuracy:.2f}')
 
-    return accuracy, clf
+    # Evaluate the model's performance
+    accuracy, f1, precision, recall = evaluate_model(y_test, y_pred)
+
+    # Plot the confusion matrix
+    plot_confusion_matrix(y_test, y_pred, "SVM")
+
+    return clf
